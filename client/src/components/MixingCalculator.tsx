@@ -70,15 +70,23 @@ export default function MixingCalculator() {
   };
 
   const calculateMixing = () => {
-    const validComponents = components.filter(comp => 
-      comp.volume && comp.alcoholContent && 
-      parseFloat(comp.volume) > 0 && parseFloat(comp.alcoholContent) >= 0
-    );
+    console.log("المكونات المدخلة:", components);
+    
+    const validComponents = components.filter(comp => {
+      const volume = comp.volume && comp.volume.trim() !== "";
+      const alcohol = comp.alcoholContent && comp.alcoholContent.trim() !== "";
+      const volumeNum = volume ? parseFloat(comp.volume) : 0;
+      const alcoholNum = alcohol ? parseFloat(comp.alcoholContent) : 0;
+      
+      return volume && alcohol && volumeNum > 0 && alcoholNum >= 0;
+    });
 
-    if (validComponents.length < 2) {
+    console.log("المكونات الصحيحة:", validComponents);
+
+    if (validComponents.length < 1) {
       toast({
         title: "خطأ",
-        description: "يجب إدخال مكونين على الأقل بقيم صحيحة",
+        description: "يجب إدخال مكون واحد على الأقل بقيم صحيحة",
         variant: "destructive",
       });
       return;
@@ -87,19 +95,31 @@ export default function MixingCalculator() {
     let totalVolume = 0;
     let totalAlcoholVolume = 0;
 
-    validComponents.forEach(comp => {
+    validComponents.forEach((comp, index) => {
       const volume = parseFloat(comp.volume);
       const alcoholContent = parseFloat(comp.alcoholContent);
+      
+      console.log(`المكون ${index + 1}: ${volume} هيكتوليتر × ${alcoholContent}%`);
       
       totalVolume += volume;
       totalAlcoholVolume += (volume * alcoholContent / 100);
     });
 
+    console.log("إجمالي الحجم:", totalVolume);
+    console.log("إجمالي حجم الكحول الصافي:", totalAlcoholVolume);
+
     const finalAlcoholContent = totalVolume > 0 ? (totalAlcoholVolume / totalVolume) * 100 : 0;
+
+    console.log("التركيز النهائي:", finalAlcoholContent);
 
     setResult({
       totalVolume,
       finalAlcoholContent
+    });
+
+    toast({
+      title: "تم الحساب بنجاح",
+      description: `تم دمج ${validComponents.length} مكونات`,
     });
   };
 
