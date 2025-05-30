@@ -5,7 +5,7 @@ import DilutionCalculator from "@/components/DilutionCalculator";
 import OIMLCorrection from "@/components/OIMLCorrection";
 import DistillationLog from "@/components/DistillationLog";
 import TankManagement from "@/components/TankManagement";
-import ContainerClassification from "@/components/ContainerClassification";
+import MixingCalculator from "@/components/MixingCalculator";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("dilution");
@@ -20,8 +20,8 @@ export default function Home() {
         return <DistillationLog />;
       case "tanks":
         return <TankManagement />;
-      case "classification":
-        return <ContainerClassification />;
+      case "mixing":
+        return <MixingCalculator />;
       default:
         return <DilutionCalculator />;
     }

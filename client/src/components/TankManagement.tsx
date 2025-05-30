@@ -14,6 +14,15 @@ export default function TankManagement() {
   const [fwSections, setFwSections] = useState("");
   const [fwTotal, setFwTotal] = useState("");
   
+  // Dilution calculator states
+  const [originalConcentration, setOriginalConcentration] = useState("");
+  const [targetConcentration, setTargetConcentration] = useState("");
+  const [targetSections, setTargetSections] = useState("");
+  const [dilutionResult, setDilutionResult] = useState<{
+    volumeNeeded: number;
+    waterNeeded: number;
+  } | null>(null);
+  
   const { toast } = useToast();
 
   const calculateST1 = () => {
@@ -26,8 +35,9 @@ export default function TankManagement() {
       });
       return;
     }
-    const total = (cm * 28.5) + 605;
-    setSt1Total(total.toFixed(2));
+    const totalLiters = (cm * 28.5) + 605;
+    const totalHectoliters = totalLiters / 100;
+    setSt1Total(totalHectoliters.toFixed(3));
   };
 
   const calculateST2 = () => {
@@ -40,8 +50,9 @@ export default function TankManagement() {
       });
       return;
     }
-    const total = (cm * 20.4) + 305;
-    setSt2Total(total.toFixed(2));
+    const totalLiters = (cm * 20.4) + 305;
+    const totalHectoliters = totalLiters / 100;
+    setSt2Total(totalHectoliters.toFixed(3));
   };
 
   const calculateFW = () => {
@@ -62,8 +73,51 @@ export default function TankManagement() {
       });
       return;
     }
-    const total = sections * 550;
-    setFwTotal(total.toFixed(2));
+    const totalLiters = sections * 550;
+    const totalHectoliters = totalLiters / 100;
+    setFwTotal(totalHectoliters.toFixed(3));
+  };
+
+  const calculateDilution = () => {
+    const originalConc = parseFloat(originalConcentration);
+    const targetConc = parseFloat(targetConcentration);
+    const targetSec = parseFloat(targetSections);
+
+    if (!originalConc || !targetConc || !targetSec) {
+      toast({
+        title: "خطأ",
+        description: "يرجى إدخال جميع القيم المطلوبة",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (targetConc >= originalConc) {
+      toast({
+        title: "خطأ",
+        description: "التركيز المطلوب يجب أن يكون أقل من التركيز الأصلي",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Calculate volume needed from original concentration
+    const targetVolumeLiters = targetSec * 550; // Total volume needed in liters
+    const targetVolumeHectoliters = targetVolumeLiters / 100;
+    
+    // Using dilution formula: C1 * V1 = C2 * V2
+    // V1 = (C2 * V2) / C1
+    const volumeNeededLiters = (targetConc * targetVolumeLiters) / originalConc;
+    const volumeNeededHectoliters = volumeNeededLiters / 100;
+    
+    // Water needed = Total volume - Original volume
+    const waterNeededLiters = targetVolumeLiters - volumeNeededLiters;
+    const waterNeededHectoliters = waterNeededLiters / 100;
+
+    setDilutionResult({
+      volumeNeeded: volumeNeededHectoliters,
+      waterNeeded: waterNeededHectoliters
+    });
   };
 
   return (
@@ -97,7 +151,7 @@ export default function TankManagement() {
             </div>
             <div>
               <Label htmlFor="st1-total" className="text-sm font-medium">
-                الحجم الكلي (لتر)
+                الحجم الكلي (هيكتوليتر)
               </Label>
               <Input
                 id="st1-total"
@@ -106,6 +160,11 @@ export default function TankManagement() {
                 readOnly
                 className="mt-1 bg-muted"
               />
+              {st1Total && (
+                <div className="text-xs text-muted-foreground mt-1">
+                  ({(parseFloat(st1Total) * 100).toFixed(0)} لتر)
+                </div>
+              )}
             </div>
           </div>
           <Button onClick={calculateST1} className="mt-3 w-full" size="sm">
@@ -136,7 +195,7 @@ export default function TankManagement() {
             </div>
             <div>
               <Label htmlFor="st2-total" className="text-sm font-medium">
-                الحجم الكلي (لتر)
+                الحجم الكلي (هيكتوليتر)
               </Label>
               <Input
                 id="st2-total"
@@ -145,6 +204,11 @@ export default function TankManagement() {
                 readOnly
                 className="mt-1 bg-muted"
               />
+              {st2Total && (
+                <div className="text-xs text-muted-foreground mt-1">
+                  ({(parseFloat(st2Total) * 100).toFixed(0)} لتر)
+                </div>
+              )}
             </div>
           </div>
           <Button onClick={calculateST2} className="mt-3 w-full" size="sm">
@@ -178,7 +242,7 @@ export default function TankManagement() {
             </div>
             <div>
               <Label htmlFor="fw-total" className="text-sm font-medium">
-                الحجم الكلي (لتر)
+                الحجم الكلي (هيكتوليتر)
               </Label>
               <Input
                 id="fw-total"
@@ -187,12 +251,104 @@ export default function TankManagement() {
                 readOnly
                 className="mt-1 bg-muted"
               />
+              {fwTotal && (
+                <div className="text-xs text-muted-foreground mt-1">
+                  ({(parseFloat(fwTotal) * 100).toFixed(0)} لتر)
+                </div>
+              )}
             </div>
           </div>
           <Button onClick={calculateFW} className="mt-3 w-full" size="sm">
             <Calculator className="mr-2 h-4 w-4" />
             احسب الحجم
           </Button>
+        </div>
+
+        {/* Dilution Calculator Section */}
+        <div className="bg-blue-50 p-4 rounded-lg">
+          <h3 className="text-lg font-semibold mb-3 text-blue-800 flex items-center gap-2">
+            <Droplets className="h-5 w-5" />
+            حاسبة تخفيف الكحول
+          </h3>
+          <p className="text-sm text-blue-600 mb-3">
+            حساب الكمية المطلوبة لتحضير عدد بايكات محدد بتركيز معين
+          </p>
+          
+          <div className="grid grid-cols-3 gap-4 mb-4">
+            <div>
+              <Label htmlFor="original-concentration" className="text-sm font-medium">
+                التركيز الأصلي %
+              </Label>
+              <Input
+                id="original-concentration"
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={originalConcentration}
+                onChange={(e) => setOriginalConcentration(e.target.value)}
+                placeholder="مثال: 50"
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="target-concentration" className="text-sm font-medium">
+                التركيز المطلوب %
+              </Label>
+              <Input
+                id="target-concentration"
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={targetConcentration}
+                onChange={(e) => setTargetConcentration(e.target.value)}
+                placeholder="مثال: 10"
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="target-sections" className="text-sm font-medium">
+                عدد البايكات المطلوب
+              </Label>
+              <Input
+                id="target-sections"
+                type="number"
+                min="1"
+                max="13"
+                value={targetSections}
+                onChange={(e) => setTargetSections(e.target.value)}
+                placeholder="مثال: 5"
+                className="mt-1"
+              />
+            </div>
+          </div>
+
+          <Button onClick={calculateDilution} className="w-full mb-4" size="sm">
+            <Calculator className="mr-2 h-4 w-4" />
+            احسب كمية التخفيف
+          </Button>
+
+          {dilutionResult && (
+            <div className="bg-white border border-blue-200 rounded-lg p-4">
+              <h4 className="font-semibold text-blue-800 mb-2">نتيجة التخفيف:</h4>
+              <div className="grid grid-cols-2 gap-4 text-blue-700">
+                <div>
+                  <span className="text-sm">كمية الكحول المطلوبة:</span>
+                  <div className="font-bold">{dilutionResult.volumeNeeded.toFixed(3)} هيكتوليتر</div>
+                  <div className="text-xs text-blue-600">({(dilutionResult.volumeNeeded * 100).toFixed(0)} لتر)</div>
+                </div>
+                <div>
+                  <span className="text-sm">كمية الماء المطلوبة:</span>
+                  <div className="font-bold">{dilutionResult.waterNeeded.toFixed(3)} هيكتوليتر</div>
+                  <div className="text-xs text-blue-600">({(dilutionResult.waterNeeded * 100).toFixed(0)} لتر)</div>
+                </div>
+              </div>
+              <div className="mt-2 text-sm text-blue-600">
+                إجمالي الكمية النهائية: {parseFloat(targetSections) * 5.5} هيكتوليتر ({parseFloat(targetSections) * 550} لتر)
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
