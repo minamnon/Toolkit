@@ -15,6 +15,8 @@ export interface IStorage {
   // Mixing calculations
   createMixingCalculation(calculation: InsertMixingCalculation): Promise<MixingCalculation>;
   getMixingCalculations(): Promise<MixingCalculation[]>;
+  updateMixingCalculation(id: number, calculation: Partial<InsertMixingCalculation>): Promise<MixingCalculation>;
+  deleteMixingCalculation(id: number): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -60,6 +62,20 @@ export class MemStorage implements IStorage {
     return Array.from(this.mixingCalcs.values()).sort((a, b) => 
       new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     );
+  }
+
+  async updateMixingCalculation(id: number, updateData: Partial<InsertMixingCalculation>): Promise<MixingCalculation> {
+    const existing = this.mixingCalcs.get(id);
+    if (!existing) {
+      throw new Error("Mixing calculation not found");
+    }
+    const updated = { ...existing, ...updateData };
+    this.mixingCalcs.set(id, updated);
+    return updated;
+  }
+
+  async deleteMixingCalculation(id: number): Promise<void> {
+    this.mixingCalcs.delete(id);
   }
 }
 

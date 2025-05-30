@@ -44,6 +44,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.patch("/api/mixing-calculations/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const data = insertMixingCalculationSchema.partial().parse(req.body);
+      const calculation = await storage.updateMixingCalculation(id, data);
+      res.json(calculation);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  });
+
+  app.delete("/api/mixing-calculations/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteMixingCalculation(id);
+      res.json({ success: true });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

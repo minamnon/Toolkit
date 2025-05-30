@@ -17,6 +17,7 @@ export const distillationOperations = pgTable("distillation_operations", {
 
 export const mixingCalculations = pgTable("mixing_calculations", {
   id: serial("id").primaryKey(),
+  name: text("name").notNull(),
   components: text("components").notNull(), // JSON string of components
   finalVolume: real("final_volume").notNull(),
   finalAlcoholContent: real("final_alcohol_content").notNull(),
