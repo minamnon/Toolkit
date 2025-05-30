@@ -15,11 +15,11 @@ export const distillationOperations = pgTable("distillation_operations", {
   timestamp: text("timestamp").notNull(),
 });
 
-export const containerClassifications = pgTable("container_classifications", {
+export const mixingCalculations = pgTable("mixing_calculations", {
   id: serial("id").primaryKey(),
-  alcoholContent: real("alcohol_content").notNull(),
-  containerCount: integer("container_count").notNull(),
-  classification: text("classification").notNull(),
+  components: text("components").notNull(), // JSON string of components
+  finalVolume: real("final_volume").notNull(),
+  finalAlcoholContent: real("final_alcohol_content").notNull(),
   timestamp: text("timestamp").notNull(),
 });
 
@@ -27,12 +27,12 @@ export const insertDistillationOperationSchema = createInsertSchema(distillation
   id: true,
 });
 
-export const insertContainerClassificationSchema = createInsertSchema(containerClassifications).omit({
+export const insertMixingCalculationSchema = createInsertSchema(mixingCalculations).omit({
   id: true,
 });
 
 export type InsertDistillationOperation = z.infer<typeof insertDistillationOperationSchema>;
 export type DistillationOperation = typeof distillationOperations.$inferSelect;
 
-export type InsertContainerClassification = z.infer<typeof insertContainerClassificationSchema>;
-export type ContainerClassification = typeof containerClassifications.$inferSelect;
+export type InsertMixingCalculation = z.infer<typeof insertMixingCalculationSchema>;
+export type MixingCalculation = typeof mixingCalculations.$inferSelect;

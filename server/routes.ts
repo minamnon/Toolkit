@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertDistillationOperationSchema, insertContainerClassificationSchema } from "@shared/schema";
+import { insertDistillationOperationSchema, insertMixingCalculationSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Distillation operations routes
@@ -24,23 +24,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Container classifications routes
-  app.get("/api/container-classifications", async (req, res) => {
+  // Mixing calculations routes
+  app.get("/api/mixing-calculations", async (req, res) => {
     try {
-      const classifications = await storage.getContainerClassifications();
-      res.json(classifications);
+      const calculations = await storage.getMixingCalculations();
+      res.json(calculations);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch container classifications" });
+      res.status(500).json({ message: "Failed to fetch mixing calculations" });
     }
   });
 
-  app.post("/api/container-classifications", async (req, res) => {
+  app.post("/api/mixing-calculations", async (req, res) => {
     try {
-      const validatedData = insertContainerClassificationSchema.parse(req.body);
-      const classification = await storage.createContainerClassification(validatedData);
-      res.json(classification);
+      const validatedData = insertMixingCalculationSchema.parse(req.body);
+      const calculation = await storage.createMixingCalculation(validatedData);
+      res.json(calculation);
     } catch (error) {
-      res.status(400).json({ message: "Invalid container classification data" });
+      res.status(400).json({ message: "Invalid mixing calculation data" });
     }
   });
 

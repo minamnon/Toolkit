@@ -1,10 +1,10 @@
 import { 
   distillationOperations, 
-  containerClassifications,
+  mixingCalculations,
   type DistillationOperation, 
-  type ContainerClassification,
+  type MixingCalculation,
   type InsertDistillationOperation, 
-  type InsertContainerClassification 
+  type InsertMixingCalculation 
 } from "@shared/schema";
 
 export interface IStorage {
@@ -12,22 +12,22 @@ export interface IStorage {
   createDistillationOperation(operation: InsertDistillationOperation): Promise<DistillationOperation>;
   getDistillationOperations(): Promise<DistillationOperation[]>;
   
-  // Container classifications
-  createContainerClassification(classification: InsertContainerClassification): Promise<ContainerClassification>;
-  getContainerClassifications(): Promise<ContainerClassification[]>;
+  // Mixing calculations
+  createMixingCalculation(calculation: InsertMixingCalculation): Promise<MixingCalculation>;
+  getMixingCalculations(): Promise<MixingCalculation[]>;
 }
 
 export class MemStorage implements IStorage {
   private distillationOps: Map<number, DistillationOperation>;
-  private containerClassifs: Map<number, ContainerClassification>;
+  private mixingCalcs: Map<number, MixingCalculation>;
   private currentDistillationId: number;
-  private currentClassificationId: number;
+  private currentMixingId: number;
 
   constructor() {
     this.distillationOps = new Map();
-    this.containerClassifs = new Map();
+    this.mixingCalcs = new Map();
     this.currentDistillationId = 1;
-    this.currentClassificationId = 1;
+    this.currentMixingId = 1;
   }
 
   async createDistillationOperation(insertOperation: InsertDistillationOperation): Promise<DistillationOperation> {
@@ -49,15 +49,15 @@ export class MemStorage implements IStorage {
     );
   }
 
-  async createContainerClassification(insertClassification: InsertContainerClassification): Promise<ContainerClassification> {
-    const id = this.currentClassificationId++;
-    const classification: ContainerClassification = { ...insertClassification, id };
-    this.containerClassifs.set(id, classification);
-    return classification;
+  async createMixingCalculation(insertCalculation: InsertMixingCalculation): Promise<MixingCalculation> {
+    const id = this.currentMixingId++;
+    const calculation: MixingCalculation = { ...insertCalculation, id };
+    this.mixingCalcs.set(id, calculation);
+    return calculation;
   }
 
-  async getContainerClassifications(): Promise<ContainerClassification[]> {
-    return Array.from(this.containerClassifs.values()).sort((a, b) => 
+  async getMixingCalculations(): Promise<MixingCalculation[]> {
+    return Array.from(this.mixingCalcs.values()).sort((a, b) => 
       new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     );
   }
