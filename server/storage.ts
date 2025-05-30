@@ -79,10 +79,6 @@ export class MemStorage implements IStorage {
   }
 }
 
-import { db } from "./db";
-import { distillationOperations, mixingCalculations } from "@shared/schema";
-import { eq } from "drizzle-orm";
-
 export class DatabaseStorage implements IStorage {
   async createDistillationOperation(operation: InsertDistillationOperation): Promise<DistillationOperation> {
     const [result] = await db.insert(distillationOperations).values(operation).returning();
@@ -115,4 +111,5 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = new DatabaseStorage();
+// Use database storage
+export { storage } from "./storage_new";
