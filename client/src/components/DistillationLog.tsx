@@ -161,53 +161,61 @@ export default function DistillationLog() {
 
           <div>
             <Label htmlFor="output-volume" className="text-sm font-medium">
-              كمية الناتج (لتر) *
+              كمية الناتج (هيكتوليتر) *
             </Label>
             <Input
               id="output-volume"
               type="number"
+              step="0.001"
               value={formData.outputVolume}
               onChange={(e) => setFormData({ ...formData, outputVolume: e.target.value })}
               required
               className="mt-1"
+              placeholder="مثال: 5.5"
             />
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             <div>
               <Label htmlFor="raw-alcohol" className="text-sm font-medium">
-                كحول خام (لتر)
+                كحول خام (هيكتوليتر)
               </Label>
               <Input
                 id="raw-alcohol"
                 type="number"
+                step="0.001"
                 value={formData.rawAlcohol}
                 onChange={(e) => setFormData({ ...formData, rawAlcohol: e.target.value })}
                 className="mt-1"
+                placeholder="2.5"
               />
             </div>
             <div>
               <Label htmlFor="heads" className="text-sm font-medium">
-                رؤوس (لتر)
+                رؤوس (هيكتوليتر)
               </Label>
               <Input
                 id="heads"
                 type="number"
+                step="0.001"
                 value={formData.heads}
                 onChange={(e) => setFormData({ ...formData, heads: e.target.value })}
                 className="mt-1"
+                placeholder="1.2"
               />
             </div>
             <div>
               <Label htmlFor="tails" className="text-sm font-medium">
-                ذيول (لتر)
+                ذيول (هيكتوليتر)
               </Label>
               <Input
                 id="tails"
                 type="number"
+                step="0.001"
                 value={formData.tails}
                 onChange={(e) => setFormData({ ...formData, tails: e.target.value })}
                 className="mt-1"
+                placeholder="1.8"
               />
             </div>
           </div>
@@ -251,10 +259,10 @@ export default function DistillationLog() {
                         {operation.operatorName} - {operation.towerType}
                       </span>
                       <div className="text-sm text-muted-foreground">
-                        {operation.operationDate} {operation.operationTime} | {operation.outputVolume} لتر
+                        {operation.operationDate} {operation.operationTime} | {operation.outputVolume} هيكتوليتر
                       </div>
                       <div className="text-xs text-muted-foreground mt-1">
-                        خام: {operation.rawAlcohol || 0}L | رؤوس: {operation.heads || 0}L | ذيول: {operation.tails || 0}L
+                        خام: {operation.rawAlcohol || 0}hl | رؤوس: {operation.heads || 0}hl | ذيول: {operation.tails || 0}hl
                       </div>
                     </div>
                     <span className="text-xs text-muted-foreground">{operation.timestamp}</span>

@@ -3,7 +3,7 @@ import {
   Thermometer, 
   ClipboardList, 
   Drum, 
-  Tags 
+  Beaker 
 } from "lucide-react";
 
 interface BottomNavigationProps {
@@ -17,7 +17,7 @@ export default function BottomNavigation({ activeTab, onTabChange }: BottomNavig
     { id: "correction", label: "التصحيح", icon: Thermometer },
     { id: "log", label: "السجل", icon: ClipboardList },
     { id: "tanks", label: "التانكات", icon: Drum },
-    { id: "classification", label: "التصنيف", icon: Tags },
+    { id: "mixing", label: "الدمج", icon: Beaker },
   ];
 
   return (

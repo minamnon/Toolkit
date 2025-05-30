@@ -67,14 +67,14 @@ export default function DilutionCalculator() {
 
         <div>
           <Label htmlFor="v1" className="text-sm font-medium">
-            الحجم الأصلي (V1) لتر
+            الحجم الأصلي (V1) هيكتوليتر
           </Label>
           <Input
             id="v1"
             type="number"
             value={v1}
             onChange={(e) => setV1(e.target.value)}
-            placeholder="مثال: 1000"
+            placeholder="مثال: 10"
             className="mt-1"
           />
         </div>
@@ -106,10 +106,16 @@ export default function DilutionCalculator() {
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
             <h3 className="font-semibold text-green-800 mb-2">النتيجة:</h3>
             <p className="text-green-700">
-              كمية الماء المطلوبة: {result.waterNeeded.toFixed(2)} لتر
+              كمية الماء المطلوبة: {result.waterNeeded.toFixed(3)} هيكتوليتر
             </p>
-            <p className="text-green-700">
-              الحجم النهائي: {result.finalVolume.toFixed(2)} لتر
+            <p className="text-green-700 text-sm">
+              ({(result.waterNeeded * 100).toFixed(0)} لتر)
+            </p>
+            <p className="text-green-700 mt-2">
+              الحجم النهائي: {result.finalVolume.toFixed(3)} هيكتوليتر
+            </p>
+            <p className="text-green-700 text-sm">
+              ({(result.finalVolume * 100).toFixed(0)} لتر)
             </p>
           </div>
         )}
