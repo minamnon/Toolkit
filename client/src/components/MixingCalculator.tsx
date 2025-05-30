@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Plus, Minus, Calculator, Save, Download, Beaker } from "lucide-react";
+import { Plus, Minus, Calculator, Save, Download, Beaker, FolderOpen, Edit2, Trash2, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { exportToExcel } from "@/lib/export";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import type { MixingCalculation, InsertMixingCalculation } from "@shared/schema";
 
 interface MixingComponent {
@@ -23,6 +24,9 @@ export default function MixingCalculator() {
   ]);
   const [result, setResult] = useState<{ totalVolume: number; finalAlcoholContent: number } | null>(null);
   const [nextId, setNextId] = useState(3);
+  const [calculationName, setCalculationName] = useState("");
+  const [editingCalculation, setEditingCalculation] = useState<MixingCalculation | null>(null);
+  const [showSavedCalculations, setShowSavedCalculations] = useState(false);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -138,7 +142,17 @@ export default function MixingCalculator() {
       parseFloat(comp.volume) > 0 && parseFloat(comp.alcoholContent) >= 0
     );
 
+    if (!calculationName.trim()) {
+      toast({
+        title: "خطأ",
+        description: "يجب إدخال اسم للحساب",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const calculationData: InsertMixingCalculation = {
+      name: calculationName,
       components: JSON.stringify(validComponents),
       finalVolume: result.totalVolume,
       finalAlcoholContent: result.finalAlcoholContent,
