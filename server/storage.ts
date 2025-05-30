@@ -32,7 +32,13 @@ export class MemStorage implements IStorage {
 
   async createDistillationOperation(insertOperation: InsertDistillationOperation): Promise<DistillationOperation> {
     const id = this.currentDistillationId++;
-    const operation: DistillationOperation = { ...insertOperation, id };
+    const operation: DistillationOperation = { 
+      ...insertOperation, 
+      id,
+      rawAlcohol: insertOperation.rawAlcohol ?? null,
+      heads: insertOperation.heads ?? null,
+      tails: insertOperation.tails ?? null
+    };
     this.distillationOps.set(id, operation);
     return operation;
   }

@@ -174,7 +174,7 @@ export default function ContainerClassification() {
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
               <h3 className="font-semibold text-yellow-800 mb-2 flex items-center gap-2">
                 <StarHalf className="h-4 w-4" />
-                درجة ثانية (< 70%)
+                درجة ثانية (&lt; 70%)
               </h3>
               <div className="text-yellow-700">
                 {currentClassification.grade2 > 0 
