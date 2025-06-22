@@ -1,6 +1,4 @@
 import { 
-  distillationOperations, 
-  mixingCalculations,
   type DistillationOperation, 
   type MixingCalculation,
   type InsertDistillationOperation, 
@@ -79,37 +77,5 @@ export class MemStorage implements IStorage {
   }
 }
 
-export class DatabaseStorage implements IStorage {
-  async createDistillationOperation(operation: InsertDistillationOperation): Promise<DistillationOperation> {
-    const [result] = await db.insert(distillationOperations).values(operation).returning();
-    return result;
-  }
-
-  async getDistillationOperations(): Promise<DistillationOperation[]> {
-    return await db.select().from(distillationOperations).orderBy(distillationOperations.id);
-  }
-
-  async createMixingCalculation(calculation: InsertMixingCalculation): Promise<MixingCalculation> {
-    const [result] = await db.insert(mixingCalculations).values(calculation).returning();
-    return result;
-  }
-
-  async getMixingCalculations(): Promise<MixingCalculation[]> {
-    return await db.select().from(mixingCalculations).orderBy(mixingCalculations.id);
-  }
-
-  async updateMixingCalculation(id: number, updateData: Partial<InsertMixingCalculation>): Promise<MixingCalculation> {
-    const [result] = await db.update(mixingCalculations).set(updateData).where(eq(mixingCalculations.id, id)).returning();
-    if (!result) {
-      throw new Error("Mixing calculation not found");
-    }
-    return result;
-  }
-
-  async deleteMixingCalculation(id: number): Promise<void> {
-    await db.delete(mixingCalculations).where(eq(mixingCalculations.id, id));
-  }
-}
-
-// Use database storage
-export { storage } from "./storage_new";
+// Export memory storage for now due to database connection issues
+export const storage = new MemStorage();

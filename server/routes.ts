@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage_new";
+import { storage } from "./storage";
 import { insertDistillationOperationSchema, insertMixingCalculationSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -10,7 +10,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const operations = await storage.getDistillationOperations();
       res.json(operations);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch distillation operations" });
+      console.error("Error fetching distillation operations:", error);
+      res.status(500).json({ message: "Failed to fetch distillation operations", error: error.message });
     }
   });
 
