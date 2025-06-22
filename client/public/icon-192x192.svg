@@ -1,0 +1,9 @@
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="192" height="192" rx="24" fill="#2563eb"/>
+  <g transform="translate(48, 48)">
+    <path d="M48 8L72 32L48 56L24 32L48 8Z" fill="white" opacity="0.9"/>
+    <path d="M48 40L72 64L48 88L24 64L48 40Z" fill="white" opacity="0.7"/>
+    <circle cx="48" cy="48" r="12" fill="white"/>
+    <text x="48" y="80" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold">EGYBEV</text>
+  </g>
+</svg>

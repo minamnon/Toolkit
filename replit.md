@@ -86,11 +86,37 @@ Two main entities managed through Drizzle ORM:
 - **Database**: Requires DATABASE_URL environment variable
 - **Replit Integration**: Special handling for Replit environment with cartographer plugin
 
+## PWA Features
+
+The application now includes full Progressive Web App (PWA) support:
+
+### PWA Capabilities
+- **Installable**: Users can install the app on their devices through browser prompts
+- **Offline Functionality**: Service worker caches API responses and static assets for offline use
+- **App-like Experience**: Standalone display mode with custom theme colors
+- **Arabic RTL Support**: Manifest configured for right-to-left language support
+- **Install Prompts**: Smart install prompts appear when installation is available
+- **Offline Indicators**: Visual feedback for connection status
+
+### PWA Components
+- **Manifest**: `/public/manifest.json` with Arabic metadata and app configuration
+- **Service Worker**: Advanced caching strategies for offline functionality
+- **Install Prompt**: Interactive component for easy app installation
+- **Offline Indicator**: Real-time connection status display
+- **App Icons**: SVG-based scalable icons for various device sizes
+
+### Caching Strategy
+- **Cache-first**: Static assets served from cache when available
+- **Network-first**: API requests attempt network then fallback to cache
+- **Runtime caching**: Successful responses cached for offline access
+
 ## Changelog
 
 ```
 Changelog:
-- June 22, 2025. Initial setup
+- June 22, 2025. Initial setup with distillation management features
+- June 22, 2025. Updated interface with EGYBEV branding and shift-based operations
+- June 22, 2025. Added PWA support with offline functionality and install prompts
 ```
 
 ## User Preferences
