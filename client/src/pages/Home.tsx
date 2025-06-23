@@ -6,6 +6,7 @@ import OIMLCorrection from "@/components/OIMLCorrection";
 import DistillationLog from "@/components/DistillationLog";
 import TankManagement from "@/components/TankManagement";
 import MixingCalculator from "@/components/MixingCalculator";
+import AlcoholConcentrationCalculator from "@/components/AlcoholConcentrationCalculator";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("dilution");
@@ -14,6 +15,8 @@ export default function Home() {
     switch (activeTab) {
       case "dilution":
         return <DilutionCalculator />;
+      case "concentration":
+        return <AlcoholConcentrationCalculator />;
       case "correction":
         return <OIMLCorrection />;
       case "log":

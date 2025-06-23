@@ -1,5 +1,6 @@
 import { 
   FlaskRound, 
+  TrendingUp,
   Thermometer, 
   ClipboardList, 
   Drum, 
@@ -14,6 +15,7 @@ interface BottomNavigationProps {
 export default function BottomNavigation({ activeTab, onTabChange }: BottomNavigationProps) {
   const tabs = [
     { id: "dilution", label: "التخفيف", icon: FlaskRound },
+    { id: "concentration", label: "رفع التركيز", icon: TrendingUp },
     { id: "correction", label: "التصحيح", icon: Thermometer },
     { id: "log", label: "السجل", icon: ClipboardList },
     { id: "tanks", label: "التانكات", icon: Drum },
