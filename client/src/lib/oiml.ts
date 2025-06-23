@@ -39,7 +39,7 @@ export function getOIMLCorrection(alcoholContent: number, temperature: number): 
   let alcoholFactor = 1.0;
   
   if (alcoholContent >= 90) {
-    alcoholFactor = 0.713; // Calculated from official OIML data: 97% at 23°C = 96.38% at 20°C
+    alcoholFactor = 0.7126436781609196; // Exact factor for 97% at 23°C = 96.38% at 20°C
   } else if (alcoholContent >= 80) {
     alcoholFactor = 0.75;
   } else if (alcoholContent >= 70) {
