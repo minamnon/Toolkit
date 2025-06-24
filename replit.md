@@ -117,6 +117,8 @@ Changelog:
 - June 22, 2025. Initial setup with distillation management features
 - June 22, 2025. Updated interface with EGYBEV branding and shift-based operations
 - June 22, 2025. Added PWA support with offline functionality and install prompts
+- June 24, 2025. Updated OIML calculations using official reference table for precise accuracy
+- June 24, 2025. Added alcohol concentration calculator with tabbed interface
 ```
 
 ## User Preferences
