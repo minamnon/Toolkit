@@ -119,6 +119,7 @@ Changelog:
 - June 22, 2025. Added PWA support with offline functionality and install prompts
 - June 24, 2025. Updated OIML calculations using official reference table for precise accuracy
 - June 24, 2025. Added alcohol concentration calculator with tabbed interface
+- June 24, 2025. Added comprehensive alcohol conversion cheat sheet with tooltips and reference tables
 ```
 
 ## User Preferences

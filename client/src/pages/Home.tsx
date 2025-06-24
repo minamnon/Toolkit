@@ -7,6 +7,7 @@ import DistillationLog from "@/components/DistillationLog";
 import TankManagement from "@/components/TankManagement";
 import MixingCalculator from "@/components/MixingCalculator";
 import AlcoholConcentrationCalculator from "@/components/AlcoholConcentrationCalculator";
+import AlcoholCheatSheet from "@/components/AlcoholCheatSheet";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("dilution");
@@ -25,6 +26,8 @@ export default function Home() {
         return <TankManagement />;
       case "mixing":
         return <MixingCalculator />;
+      case "cheatsheet":
+        return <AlcoholCheatSheet />;
       default:
         return <DilutionCalculator />;
     }
