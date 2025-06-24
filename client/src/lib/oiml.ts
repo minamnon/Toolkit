@@ -170,13 +170,15 @@ function findActualAlcoholFromMeasured(measuredAlcohol: number, temperature: num
 }
 
 export function getOIMLCorrection(alcoholContent: number, temperature: number): number {
-  // This function calculates the correction factor
+  if (temperature === 20) {
+    return 0; // لا حاجة للتصحيح عند 20°C
+  }
+  
   const actualAlcohol = findActualAlcoholFromMeasured(alcoholContent, temperature);
-  return actualAlcohol - alcoholContent;
+  return Math.round((actualAlcohol - alcoholContent) * 100) / 100;
 }
 
 export function getTemperatureCorrectedAlcohol(measuredAlcohol: number, temperature: number): number {
   const actualAlcohol = findActualAlcoholFromMeasured(measuredAlcohol, temperature);
-  // Round to 2 decimal places for practical use
   return Math.round(actualAlcohol * 100) / 100;
 }
