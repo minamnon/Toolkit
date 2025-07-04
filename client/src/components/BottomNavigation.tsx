@@ -1,10 +1,10 @@
-import { 
-  FlaskRound, 
+import {
+  FlaskRound,
   TrendingUp,
-  Thermometer, 
-  ClipboardList, 
-  Drum, 
-  Beaker 
+  Thermometer,
+  ClipboardList,
+  Drum,
+  Beaker,
 } from "lucide-react";
 
 interface BottomNavigationProps {
@@ -12,11 +12,14 @@ interface BottomNavigationProps {
   onTabChange: (tab: string) => void;
 }
 
-export default function BottomNavigation({ activeTab, onTabChange }: BottomNavigationProps) {
+export default function BottomNavigation({
+  activeTab,
+  onTabChange,
+}: BottomNavigationProps) {
   const tabs = [
     { id: "dilution", label: "التخفيف", icon: FlaskRound },
     { id: "concentration", label: "رفع التركيز", icon: TrendingUp },
-    { id: "correction", label: "التصحيح", icon: Thermometer },
+    // { id: "correction", label: "التصحيح", icon: Thermometer }, ← تم حذفه
     { id: "log", label: "السجل", icon: ClipboardList },
     { id: "tanks", label: "التانكات", icon: Drum },
     { id: "mixing", label: "الدمج", icon: Beaker },
@@ -32,8 +35,8 @@ export default function BottomNavigation({ activeTab, onTabChange }: BottomNavig
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               className={`flex flex-col items-center p-2 text-xs transition-colors ${
-                activeTab === tab.id 
-                  ? "text-primary" 
+                activeTab === tab.id
+                  ? "text-primary"
                   : "text-muted-foreground hover:text-primary"
               }`}
             >

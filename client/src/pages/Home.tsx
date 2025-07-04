@@ -2,7 +2,6 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import BottomNavigation from "@/components/BottomNavigation";
 import DilutionCalculator from "@/components/DilutionCalculator";
-import OIMLCorrection from "@/components/OIMLCorrection";
 import DistillationLog from "@/components/DistillationLog";
 import TankManagement from "@/components/TankManagement";
 import MixingCalculator from "@/components/MixingCalculator";
@@ -18,8 +17,6 @@ export default function Home() {
         return <DilutionCalculator />;
       case "concentration":
         return <AlcoholConcentrationCalculator />;
-      case "correction":
-        return <OIMLCorrection />;
       case "log":
         return <DistillationLog />;
       case "tanks":
@@ -36,7 +33,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground" dir="rtl">
       <Header />
-      
+
       <main className="p-4 pb-20">
         {renderActiveComponent()}
       </main>
