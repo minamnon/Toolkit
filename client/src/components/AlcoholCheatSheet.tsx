@@ -86,19 +86,7 @@ export default function AlcoholCheatSheet() {
     }
   ];
 
-  const temperatureCorrections: TemperatureCorrection[] = [
-    { temp: 15, alcohol40: 39.6, alcohol60: 59.3, alcohol80: 79.0, alcohol95: 94.8 },
-    { temp: 16, alcohol40: 39.6, alcohol60: 59.3, alcohol80: 79.3, alcohol95: 95.0 },
-    { temp: 17, alcohol40: 39.7, alcohol60: 59.4, alcohol80: 79.7, alcohol95: 95.2 },
-    { temp: 18, alcohol40: 39.8, alcohol60: 59.6, alcohol80: 80.0, alcohol95: 95.4 },
-    { temp: 19, alcohol40: 39.9, alcohol60: 59.8, alcohol80: 80.3, alcohol95: 95.6 },
-    { temp: 20, alcohol40: 40.0, alcohol60: 60.0, alcohol80: 80.7, alcohol95: 96.0 },
-    { temp: 21, alcohol40: 40.1, alcohol60: 60.2, alcohol80: 81.0, alcohol95: 96.2 },
-    { temp: 22, alcohol40: 40.3, alcohol60: 60.5, alcohol80: 81.3, alcohol95: 96.4 },
-    { temp: 23, alcohol40: 40.4, alcohol60: 60.7, alcohol80: 81.7, alcohol95: 96.6 },
-    { temp: 24, alcohol40: 40.6, alcohol60: 61.0, alcohol80: 82.0, alcohol95: 96.8 },
-    { temp: 25, alcohol40: 40.8, alcohol60: 61.3, alcohol80: 82.3, alcohol95: 97.0 }
-  ];
+  
 
   const commonMistakes = [
     {
@@ -159,19 +147,9 @@ export default function AlcoholCheatSheet() {
         </CardHeader>
         <CardContent className="space-y-6">
           <Tabs defaultValue="formulas" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="formulas" className="flex items-center gap-2">
-                <Calculator className="h-4 w-4" />
-                المعادلات
-              </TabsTrigger>
-              <TabsTrigger value="temperature" className="flex items-center gap-2">
-                <Thermometer className="h-4 w-4" />
-                درجة الحرارة
-              </TabsTrigger>
-              <TabsTrigger value="tips" className="flex items-center gap-2">
-                <Beaker className="h-4 w-4" />
-                نصائح
-              </TabsTrigger>
+            <TabsList className="grid grid-cols-2 w-full">
+              <TabsTrigger value="formulas">المعادلات</TabsTrigger>
+              <TabsTrigger value="tips">نصائح</TabsTrigger>
             </TabsList>
 
             <TabsContent value="formulas" className="space-y-4">
@@ -201,16 +179,16 @@ export default function AlcoholCheatSheet() {
                               </TooltipContent>
                             </Tooltip>
                           </div>
-                          
+
                           <div className="bg-gray-50 p-3 rounded-lg mb-3 font-mono text-sm">
                             {conversion.formula}
                           </div>
-                          
+
                           <div className="text-sm text-gray-600 bg-blue-50 p-2 rounded border-r-2 border-blue-200">
                             <strong>مثال:</strong> {conversion.example}
                           </div>
                         </div>
-                        
+
                         <Button
                           variant="ghost"
                           size="sm"
@@ -230,62 +208,7 @@ export default function AlcoholCheatSheet() {
               </div>
             </TabsContent>
 
-            <TabsContent value="temperature" className="space-y-4">
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Thermometer className="h-5 w-5 text-yellow-600" />
-                  <h3 className="font-semibold">تصحيحات درجة الحرارة OIML</h3>
-                </div>
-                <p className="text-sm text-yellow-700">
-                  القيم الفعلية عند 20°C بناء على القراءات المقيسة في درجات حرارة مختلفة
-                </p>
-              </div>
-
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-gray-300">
-                  <thead>
-                    <tr className="bg-gray-50">
-                      <th className="border border-gray-300 p-2 text-center">درجة الحرارة (°C)</th>
-                      <th className="border border-gray-300 p-2 text-center">40% مقيس</th>
-                      <th className="border border-gray-300 p-2 text-center">60% مقيس</th>
-                      <th className="border border-gray-300 p-2 text-center">80% مقيس</th>
-                      <th className="border border-gray-300 p-2 text-center">95% مقيس</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {temperatureCorrections.map((row, index) => (
-                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                        <td className="border border-gray-300 p-2 text-center font-medium">
-                          {row.temp}
-                        </td>
-                        <td className="border border-gray-300 p-2 text-center">
-                          {row.alcohol40}%
-                        </td>
-                        <td className="border border-gray-300 p-2 text-center">
-                          {row.alcohol60}%
-                        </td>
-                        <td className="border border-gray-300 p-2 text-center">
-                          {row.alcohol80}%
-                        </td>
-                        <td className="border border-gray-300 p-2 text-center">
-                          {row.alcohol95}%
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h4 className="font-semibold text-blue-800 mb-2">كيفية استخدام الجدول:</h4>
-                <ul className="text-sm text-blue-700 space-y-1">
-                  <li>• ابحث عن درجة الحرارة الحالية في العمود الأول</li>
-                  <li>• ابحث عن القراءة المقيسة في العمود المناسب</li>
-                  <li>• القيمة الموضحة هي التركيز الفعلي عند 20°C</li>
-                  <li>• مثال: 97% مقيس عند 23°C = 96.6% فعلي عند 20°C</li>
-                </ul>
-              </div>
-            </TabsContent>
+            
 
             <TabsContent value="tips" className="space-y-4">
               <div className="grid gap-4">
